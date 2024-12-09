@@ -1,6 +1,16 @@
 import numpy as np
 
-def validateRow(array):
+def validateForPartTwo(array):
+
+    if validateForPartOne(array):
+        return True
+
+    for x in range(len(array)):
+        if validateForPartOne(np.delete(array, x, 0)):
+            return True
+    return False
+
+def validateForPartOne(array):
     isSave = True
     isIncreasing = (array[0] - array[1]) > 0
 
@@ -25,9 +35,14 @@ with open('data.tsv', "r") as file:
         array = np.fromstring(line, dtype=int, sep=' ')
         fullarray.append(array)
 
-areSave = 0
+areSavePart1 = 0
+areSavePart2 = 0
 for x in fullarray:
-    isSave = validateRow(x)
-    if(isSave):
-        areSave += 1
-print(areSave)
+    if validateForPartOne(x):
+        areSavePart1 += 1
+
+    if validateForPartTwo(x):
+        areSavePart2 += 1
+
+print(f'Part One: {areSavePart1}')
+print(f'Part Two: {areSavePart2}')
